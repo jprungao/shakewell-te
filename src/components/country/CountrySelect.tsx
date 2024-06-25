@@ -45,9 +45,6 @@ export const CountrySelect = ({
           options={data}
           components={{ Option: CountrySelectOption }}
           defaultValue={defaultValue}
-          onChange={(newValue) => {
-            onChange(newValue.value);
-          }}
         />
       </label>
     </div>

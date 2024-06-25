@@ -1,5 +1,7 @@
 import CurrencyData from "currency-codes/data";
+import React from "react";
 import Select from "react-select";
+import { Option } from "../../interface/Option";
 
 // Props
 interface CurrencySelectProps {
@@ -7,16 +9,23 @@ interface CurrencySelectProps {
   onChange?: (currency: string) => void;
 }
 
+interface Currency {
+  code: string;
+  currency: string;
+}
+
+
+const Currency: Currency[] = CurrencyData
 // Constants
 export const DEFAULT_CURRENCY = "USD - US Dollar";
 
 // Component
-const CurrencySelect = ({
+const CurrencySelect: React.FC<CurrencySelectProps> = ({
   value = DEFAULT_CURRENCY,
-  onChange,
-}: CurrencySelectProps) => {
+  onChange = () => {},
+}) => {
   // Prepare data
-  const data = CurrencyData.map(({ code, currency }) => {
+  const data = Currency.map(({ code, currency }) => {
     return {
       value: code + " - " + currency,
       label: code + " - " + currency,
@@ -32,8 +41,10 @@ const CurrencySelect = ({
         <Select
           options={data}
           defaultValue={defaultValue}
-          onChange={(newValue) => {
-            onChange(newValue.value);
+          onChange={(newValue: Option | null) => {
+            if(newValue) {
+              onChange(newValue.value);
+            }
           }}
         />
       </label>

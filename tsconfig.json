@@ -2,8 +2,12 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "target": "ESNext",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -17,7 +21,12 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+    "typeRoots": [
+      "src/@types"
+    ]
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ],
 }

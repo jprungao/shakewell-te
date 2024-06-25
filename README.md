@@ -1,6 +1,4 @@
-![howfm-weblogo_whitespace](https://user-images.githubusercontent.com/1236319/223379116-01e04545-4d4a-4296-8e1e-c155ea2ed1f8.svg)
-
-# Welcome to your shakewell coding challenge :wave:
+# Welcome to the Shakewell JS coding challenge :wave:
 
 This project was originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

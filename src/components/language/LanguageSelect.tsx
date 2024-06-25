@@ -1,6 +1,7 @@
 import ISO_6391_Languages from "iso-639-1";
 
 import Select from "react-select";
+import { Option } from "../../interface/Option";
 
 // Props
 interface LanguageSelectProps {
@@ -14,7 +15,7 @@ export const DEFAULT_LANGUAGE = "English - English";
 // Component
 const LanguageSelect = ({
   language = DEFAULT_LANGUAGE,
-  onChange,
+  onChange = () => { },
 }: LanguageSelectProps) => {
   // Prepare data
   const data = ISO_6391_Languages.getLanguages([
@@ -40,8 +41,10 @@ const LanguageSelect = ({
         <Select
           options={data}
           defaultValue={defaultValue}
-          onChange={(newValue) => {
-            onChange(newValue.value);
+          onChange={(newValue: Option | null) => {
+            if (newValue) {
+              onChange(newValue.value);
+            }
           }}
         />
       </label>

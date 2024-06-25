@@ -1,0 +1,16 @@
+.actions {
+    margin-top: 1rem;
+}
+
+.actions button:first-child {
+    margin-right: 1rem;
+}
+
+.input-group {
+    margin-top: 1rem;
+}
+
+.input-group label span {
+    margin: 0.5rem 0;
+    display: block;
+}

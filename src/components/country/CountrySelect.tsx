@@ -23,7 +23,7 @@ export const DEFAULT_COUNTRY = {
 // Component
 export const CountrySelect = ({
   value = DEFAULT_COUNTRY,
-  onChange,
+  onChange = () => {},
 }: CountrySelectProps) => {
   // Prepare Data
   const data = Object.entries(
@@ -38,13 +38,17 @@ export const CountrySelect = ({
 
   // Render
   return (
-    <div>
+    <div className="input-group">
       <label>
-        Country
+        <span>Country</span>
         <Select
           options={data}
-          components={{ Option: CountrySelectOption }}
           defaultValue={defaultValue}
+          onChange={(newValue) => {
+            if (newValue) {
+              onChange(newValue.value);
+            }
+          }}
         />
       </label>
     </div>

@@ -15,7 +15,7 @@ export const DEFAULT_LANGUAGE = "English - English";
 // Component
 const LanguageSelect = ({
   language = DEFAULT_LANGUAGE,
-  onChange = () => { },
+  onChange = () => {},
 }: LanguageSelectProps) => {
   // Prepare data
   const data = ISO_6391_Languages.getLanguages([
@@ -35,9 +35,9 @@ const LanguageSelect = ({
 
   // Render
   return (
-    <div>
+    <div className="input-group">
       <label>
-        Language
+        <span>Language</span>
         <Select
           options={data}
           defaultValue={defaultValue}

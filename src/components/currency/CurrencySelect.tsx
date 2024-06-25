@@ -1,12 +1,11 @@
 import CurrencyData from "currency-codes/data";
 import React from "react";
 import Select from "react-select";
-import { Option } from "../../interface/Option";
 
 // Props
 interface CurrencySelectProps {
-  value?: string;
-  onChange?: (currency: string) => void;
+  value: string;
+  onChange: (currency: string) => void;
 }
 
 interface Currency {
@@ -14,8 +13,8 @@ interface Currency {
   currency: string;
 }
 
+const Currency: Currency[] = CurrencyData;
 
-const Currency: Currency[] = CurrencyData
 // Constants
 export const DEFAULT_CURRENCY = "USD - US Dollar";
 
@@ -25,24 +24,22 @@ const CurrencySelect: React.FC<CurrencySelectProps> = ({
   onChange = () => {},
 }) => {
   // Prepare data
-  const data = Currency.map(({ code, currency }) => {
-    return {
-      value: code + " - " + currency,
-      label: code + " - " + currency,
-    };
-  });
+  const data = Currency.map(({ code, currency }) => ({
+    value: `${code} - ${currency}`,
+    label: `${code} - ${currency}`,
+  }));
   const defaultValue = { value: value, label: value };
 
   // Render
   return (
-    <div>
+    <div className="input-group">
       <label>
-        Currency
+        <span>Currency</span>
         <Select
           options={data}
           defaultValue={defaultValue}
-          onChange={(newValue: Option | null) => {
-            if(newValue) {
+          onChange={(newValue) => {
+            if (newValue) {
               onChange(newValue.value);
             }
           }}

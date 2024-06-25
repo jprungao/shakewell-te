@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Modal from "react-modal";
 import CountrySelect, { DEFAULT_COUNTRY } from "../country/CountrySelect";
 import LanguageSelect, { DEFAULT_LANGUAGE } from "../language/LanguageSelect";
 import CurrencySelect, { DEFAULT_CURRENCY } from "../currency/CurrencySelect";
+import Button from "../button";
 
 /* --- [TASK] ---
 Changes on modal are only applied on SAVE
@@ -59,11 +60,11 @@ Improved use of TypeScript
 CURRENT SCENARIO
 - In `SettingsSelector`, there are individual `useState()` calls for `Country`, `Language`, and `Currency`.
 - Throughout the entire project, there are several instances of type `any`.
-    Example: 
+    Example:
     ```typescript
     ... = React.useState<any>(DEFAULT_COUNTRY);
     ```
-- Default values are constants that are exported by each component. 
+- Default values are constants that are exported by each component.
     Example:
     ```typescript
     .... { DEFAULT_COUNTRY } from "../country/CountrySelect";
@@ -93,61 +94,83 @@ FURTHER DETAILS
 - Downgrading to React 17 is not an option 😉
 --- [TASK] --- */
 
-// Component
+// interface
+
+interface SettingsState {
+  country: typeof DEFAULT_COUNTRY;
+  currency: string;
+  language: string;
+}
+
 const SettingsSelector = (): JSX.Element => {
   // States
-  const [modalIsOpen, setModalIsOpen] = React.useState<any>(false);
-  const [selectedCountry, setCountry] = React.useState<any>(DEFAULT_COUNTRY);
-  const [selectedCurrency, setCurrency] = React.useState<any>(DEFAULT_CURRENCY);
-  const [selectedLanguage, setLanguage] = React.useState<any>(DEFAULT_LANGUAGE);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [settings, setSettings] = useState<SettingsState>({
+    country: DEFAULT_COUNTRY,
+    currency: DEFAULT_CURRENCY,
+    language: DEFAULT_LANGUAGE,
+  });
+  const [tempSettings, setTempSettings] = useState<SettingsState>({
+    country: DEFAULT_COUNTRY,
+    currency: DEFAULT_CURRENCY,
+    language: DEFAULT_LANGUAGE,
+  });
 
   // Render Counter
   const counter = useRef(0);
 
   // Actions
   const handleOpen = () => {
+    setTempSettings(settings);
     setModalIsOpen(true);
   };
   const handleClose = () => {
     setModalIsOpen(false);
   };
-
-  const button = () => {
-    // Increase render count.
-    counter.current++;
-
-    // Log current render count.
-    console.log("Render count of button is: " + counter.current);
-
-    /* Button */
-    return (
-      <button onClick={handleOpen}>
-        {selectedCountry.name} - ({selectedCurrency} - {selectedLanguage})
-      </button>
-    );
+  const handleSave = () => {
+    setSettings(tempSettings);
+    setModalIsOpen(false);
   };
 
   // Render
   return (
     <div>
-      {button()}
 
+      <Button
+        onClick={handleOpen}
+        country={settings.country.name}
+        currency={settings.currency}
+        language={settings.language}
+      />
       {/* Modal */}
-      <Modal isOpen={modalIsOpen}>
+      <Modal isOpen={modalIsOpen} onRequestClose={handleClose}>
         {/* Header */}
         <h2>Select your region, currency and language.</h2>
 
         {/* Country */}
-        <CountrySelect value={selectedCountry} onChange={setCountry} />
+        <CountrySelect
+          value={tempSettings.country}
+          onChange={(value) => setTempSettings({ ...tempSettings, country: value })}
+        />
 
         {/* Currency */}
-        <CurrencySelect value={selectedCurrency} onChange={setCurrency} />
+        <CurrencySelect
+          value={tempSettings.currency}
+          onChange={(value) => setTempSettings({ ...tempSettings, currency: value })}
+        />
 
         {/* Language */}
-        <LanguageSelect language={selectedLanguage} onChange={setLanguage} />
+        <LanguageSelect
+          language={tempSettings.language}
+          onChange={(value) => setTempSettings({ ...tempSettings, language: value })}
+        />
 
-        {/* Close button */}
-        <button onClick={handleClose}>Close</button>
+        {/* Buttons */}
+        <div className="actions">
+
+          <button onClick={handleSave}>Save</button>
+          <button onClick={handleClose}>Cancel</button>
+        </div>
       </Modal>
     </div>
   );
